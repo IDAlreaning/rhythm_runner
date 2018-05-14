@@ -57,6 +57,7 @@ namespace rhythm_runner
                 if (menuController.GetMenuStatus() == MenuController.MENU_STATUS_START_CLICKED)
                 {
                     screenStatus = SCREEN_STATUS_GAME_NORMAL;
+                    GameController.Instance.gameStatus = GameController.GAME_STATUS_IN_PROGRESS;
                     this.Controls.Clear();
 
                 }
@@ -64,11 +65,10 @@ namespace rhythm_runner
             }
             // end
 
+
             // 遊戲內容
             if (screenStatus == SCREEN_STATUS_GAME_NORMAL)
             {
-                GameController.Instance.Action();
-
 
                 if (GameController.Instance.Action() == GameController.GAME_STATUS_STOP)
                 {
@@ -76,9 +76,9 @@ namespace rhythm_runner
                     screenStatus = SCREEN_STATUS_MENU;
                     menuController.ShowMenu();
                 }
-                return;
+                //return;
             }
-            //// end
+            // end
 
 
             Invalidate(); // 全部洗掉再印一次，會去觸發OnPaint

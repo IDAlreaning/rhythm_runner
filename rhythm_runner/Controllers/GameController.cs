@@ -46,7 +46,7 @@ namespace rhythm_runner.Controllers
         public bool isJumping;
 
         // Game Status
-        private int gameStatus; // 考量未來加入其餘狀態因此使用int
+        public int gameStatus; // 考量未來加入其餘狀態因此使用int
 
 
         public GameController(Gameform form)
@@ -180,10 +180,10 @@ namespace rhythm_runner.Controllers
 
         public int Action()
         {
-            if (gameStatus == GAME_STATUS_STOP)
-            {
-                return gameStatus;
-            }
+            //if (gameStatus == GAME_STATUS_STOP)
+            //{
+            //    return gameStatus;
+            //}
 
 
             int distanceOfJumping = player.endJumpPosition - player.startJumpPosition;
@@ -237,6 +237,10 @@ namespace rhythm_runner.Controllers
 
             player.playerY = (int)(-(x - center) * (x - center) * a) + heightOfJump;
 
+            if (player.hp <= 0 || player.startGameObject == gameObjects[amountOfObjects - 1])
+            {
+                gameStatus = GAME_STATUS_STOP;
+            }
 
             return gameStatus;
         }

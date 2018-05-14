@@ -17,13 +17,13 @@ namespace rhythm_runner.Controllers
         public const int MENU_STATUS_WAIT = 0;
 
         // Parent Panel
-        private Gameform form;
+        public Gameform form;
 
         // Menu Object
-        private Button startBtn;
+        public Button startBtn;
 
         // Menu Status
-        private int menuStatus;
+        public int menuStatus;
 
 
         public MenuController(Gameform form)
@@ -53,7 +53,7 @@ namespace rhythm_runner.Controllers
             form.Controls.Add(startBtn);
         }
 
-        private void StartBtn_Click(object sender, EventArgs e)
+        public void StartBtn_Click(object sender, EventArgs e)
         {
             menuStatus = MENU_STATUS_START_CLICKED;
             // throw new NotImplementedException();
