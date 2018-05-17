@@ -13,9 +13,13 @@ namespace rhythm_runner.Controllers
     {
         static public GameController Instance;
 
+        public const int ESC = 3;
+        public const int GAMEOVER = 2;
         public const int GAME_STATUS_IN_PROGRESS = 1;
         public const int GAME_STATUS_STOP = 0;
 
+        public int score;
+        public int hp;
 
         public List<GameObject> gameObjects;
         public bool hasJumped;
@@ -48,10 +52,13 @@ namespace rhythm_runner.Controllers
 
         // Game Status
         public int gameStatus; // 考量未來加入其餘狀態因此使用int
+        public int drawWhat;
+        public Graphics formGraphics;
 
 
         public GameController(Gameform form)
         {
+            drawWhat = ESC;
             this.form = form;
             this.menuController = new MenuController(form);
             dir = new System.IO.DirectoryInfo(System.Windows.Forms.Application.StartupPath).Parent.Parent;
@@ -59,27 +66,25 @@ namespace rhythm_runner.Controllers
             this.hasJumped = false;
             this.hasCollided = false;
 
+
             // Set Game Status
             this.gameStatus = GAME_STATUS_STOP;
 
-            this.amountOfTempo = 5;
-            this.amountOfObjects = 5;
+            this.amountOfTempo = 4;
+            this.amountOfObjects = 4;
 
-            this.platformScore = 10;
+            this.platformScore = 50;
             this.healboxHp = 20;
-            this.ObstracleMinusHp = 40;
-            this.ObstracleMinusScore = 25;
+            this.ObstracleMinusHp = 50;
+            this.ObstracleMinusScore = 100;
 
             random = new Random();
 
 
             this.isJumping = false;
 
-
             createListGameObject();
-
             createMedia();
-
 
             player = new Player("Images//GameObject_Player.gif", gameObjects[0], gameObjects[1]);
             background = new BackGroundController("Images//gameBackground_First_left.png", "Images//gameBackground_First_right.png");
@@ -158,10 +163,16 @@ namespace rhythm_runner.Controllers
                 background.drawMenu(g);
             }
 
+            if (form.screenStatus == Gameform.SCREEN_STATUS_SCORING)
+            {
+                background.drawScoring(g);
+                formGraphics = form.CreateGraphics();
+                DrawString();
+            }
+
             if (form.screenStatus == Gameform.SCREEN_STATUS_HOWTO)
             {
                 background.drawMenu(g);
-
                 background.drawHowToPlay(g);
             }
 
@@ -198,7 +209,6 @@ namespace rhythm_runner.Controllers
 
         public int Action()
         {
-
             int distanceOfJumping = player.endJumpPosition - player.startJumpPosition;
 
             player.playerX += player.speed * distanceOfJumping / distanceOfObjectes;
@@ -231,7 +241,7 @@ namespace rhythm_runner.Controllers
                 {
                     if (player.keyPressOfJump == true)
                     {
-                        if (!(currentObject is Obstacle))
+                        if (!(currentObject is Obstacle) && player.startGameObject != gameObjects[amountOfObjects - 2])
                         {
                             player.state = Player.State.JUMP_FARTHER;
                             player.targetGameObject = player.targetGameObject.nextGameObject;
@@ -255,24 +265,34 @@ namespace rhythm_runner.Controllers
             if (player.hp <= 0 || player.startGameObject == gameObjects[amountOfObjects - 1])
             {
                 gameStatus = GAME_STATUS_STOP;
+                drawWhat = GAMEOVER;
                 GameController.Instance.backGroundMusic.Close();
-
-                player.hp = 200;
-                player.score = 0;
+                form.showScore = player.score;
+                hp = player.hp;
             }
 
             return gameStatus;
         }
 
-
-        private void HP_Click(object sender, EventArgs e)
+        public void reStart()
         {
-
+            player.hp = 200;
+            player.score = 0;
         }
 
-        private void SCORE_Click(object sender, EventArgs e)
+        public void DrawString()
         {
-
+            string drawString = form.showScore.ToString();
+            Font drawFont = new Font("Hobo Std", 100);
+            SolidBrush drawBrush = new SolidBrush(Color.DarkRed);
+            float x = 210.0F;
+            float y = 430.0F;
+            StringFormat drawFormat = new System.Drawing.StringFormat();
+            formGraphics.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
+            drawFont.Dispose();
+            drawBrush.Dispose();
+            formGraphics.Dispose();
         }
+
     }
 }

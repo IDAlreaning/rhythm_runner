@@ -21,10 +21,10 @@ namespace rhythm_runner.Controllers
 
         // Parent Panel
         public Gameform form;
+        public GameController gameController;
 
         // Menu Object
         public Button play_startBtn;
-        // public Button main_startBtn;
         public Button howTo_startBtn;
         public Button close_startBtn;
 
@@ -48,39 +48,32 @@ namespace rhythm_runner.Controllers
             form.Controls.Clear();
             // end
 
-
             // set up button
             play_startBtn = new Button();
-            // main_startBtn = new Button();
             howTo_startBtn = new Button();
             close_startBtn = new Button();
 
-            play_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.2), 100 + (form.ClientSize.Height - buttonHeight) / 3);
-            // main_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.2), 100 + (form.ClientSize.Height - buttonHeight) / 2);
-            howTo_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.2), 100 + (form.ClientSize.Height - buttonHeight) / 2);
-            close_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.2), 100 + (form.ClientSize.Height - buttonHeight) / 3 * 2);
+            play_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.3), 100 + (form.ClientSize.Height - buttonHeight) / 3);
+            howTo_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.3), 100 + (form.ClientSize.Height - buttonHeight) / 2);
+            close_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.3), 100 + (form.ClientSize.Height - buttonHeight) / 3 * 2);
 
 
             play_startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
-            // main_startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
             howTo_startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
             close_startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
 
 
             play_startBtn.Text = "START GAME";
-            // main_startBtn.Text = "MAIN";
             howTo_startBtn.Text = "HOW TO PLAY";
             close_startBtn.Text = "LEAVE";
 
 
             play_startBtn.Click += new System.EventHandler(play_startBtn_Click);
-            // main_startBtn.Click += new System.EventHandler(main_startBtn_Click);
             howTo_startBtn.Click += new System.EventHandler(howTo_startBtn_Click);
             close_startBtn.Click += new System.EventHandler(close_startBtn_Click);
 
             // Assign an image to the button.
             play_startBtn.Image = Image.FromFile("Images//button.png");
-            // main_startBtn.Image = Image.FromFile("Images//button.png");
             howTo_startBtn.Image = Image.FromFile("Images//button.png");
             close_startBtn.Image = Image.FromFile("Images//button.png");
 
@@ -95,7 +88,6 @@ namespace rhythm_runner.Controllers
 
             // add object
             form.Controls.Add(play_startBtn);
-           // form.Controls.Add(main_startBtn);
             form.Controls.Add(howTo_startBtn);
             form.Controls.Add(close_startBtn);
         }
@@ -104,6 +96,7 @@ namespace rhythm_runner.Controllers
         {
             form.screenStatus = Gameform.SCREEN_STATUS_MENU;
             menuStatus = MENU_STATUS_START_CLICKED;
+
             GameController.Instance.playerJumpMusic.Play();
             GameController.Instance.backGroundMusic.Play();
 

@@ -41,3 +41,7 @@ C:\Users\asus\Desktop\跳跳跳遊戲\rhythm_runner\rhythm_runner\bin\Debug\Imag
 C:\Users\asus\Desktop\跳跳跳遊戲\rhythm_runner\rhythm_runner\bin\Debug\Images\Menu_background.png
 C:\Users\asus\Desktop\跳跳跳遊戲\rhythm_runner\rhythm_runner\bin\Debug\Images\HowToPlay.png
 C:\Users\asus\Desktop\跳跳跳遊戲\rhythm_runner\rhythm_runner\bin\Debug\Images\Menu_backgroundAndRunner.png
+C:\Users\asus\Desktop\跳跳跳遊戲\rhythm_runner\rhythm_runner\bin\Debug\Images\hurdling_man.ico
+C:\Users\asus\Desktop\跳跳跳遊戲\rhythm_runner\rhythm_runner\bin\Debug\Images\scoring.jpg
+C:\Users\asus\Desktop\跳跳跳遊戲\rhythm_runner\rhythm_runner\bin\Debug\Images\button-icon.png
+C:\Users\asus\Desktop\跳跳跳遊戲\rhythm_runner\rhythm_runner\bin\Debug\Images\scoring.png

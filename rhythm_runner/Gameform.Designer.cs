@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gameform));
             this.move = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -42,9 +43,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Gameform";
-            this.Text = "Form1";
+            this.Text = "Hurdling Man | 跳跳小紅人";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Jumping_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Gameform_KeyPress);
             this.ResumeLayout(false);

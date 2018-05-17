@@ -15,6 +15,7 @@ namespace rhythm_runner.Controllers
         public Bitmap backGround_ImageName_1;
         public Bitmap backGround_ImageName_2;
         public Bitmap Menu_ImageNam = new Bitmap("Images//Menu_backgroundAndRunner.png");
+        public Bitmap Scoring_ImageNam = new Bitmap("Images//scoring.png");
         public Bitmap HowToPlay_ImageNam = new Bitmap("Images//HowToPlay.png");
 
         public int backGroundX_1;
@@ -58,6 +59,11 @@ namespace rhythm_runner.Controllers
         public void drawMenu(Graphics g)
         {
             g.DrawImage(Menu_ImageNam, MenuX, MenuY, MenuWidth, MenuHeight);
+        }
+
+        public void drawScoring(Graphics g)
+        {
+            g.DrawImage(Scoring_ImageNam, MenuX, MenuY, 1015, 750);
         }
 
         public void drawHowToPlay(Graphics g)

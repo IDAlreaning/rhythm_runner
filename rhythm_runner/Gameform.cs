@@ -20,6 +20,8 @@ namespace rhythm_runner
         public const int SCREEN_STATUS_MENU = 0;
         public const int SCREEN_STATUS_GAME_NORMAL = 1;
         public const int SCREEN_STATUS_HOWTO = 2;
+        public const int SCREEN_STATUS_SCORING = 3;
+        public int showScore;
 
         // Controllers
         public MenuController menuController;
@@ -48,7 +50,6 @@ namespace rhythm_runner
         protected override void OnPaint(PaintEventArgs e)
         {
             GameController.Instance.draw(e);
-
         }
 
         private void move_Tick(object sender, EventArgs e)
@@ -56,15 +57,12 @@ namespace rhythm_runner
             // 主選單
             if (screenStatus == SCREEN_STATUS_MENU)
             {
-
                 if (menuController.GetMenuStatus() == MenuController.MENU_STATUS_START_CLICKED)
                 {
                     screenStatus = SCREEN_STATUS_GAME_NORMAL;
                     GameController.Instance.gameStatus = GameController.GAME_STATUS_IN_PROGRESS;
                     this.Controls.Clear();
-
                 }
-                return;
             }
             // end
 
@@ -75,12 +73,25 @@ namespace rhythm_runner
                 if (GameController.Instance.Action() == GameController.GAME_STATUS_STOP)
                 {
                     // 遊戲結束做的事
-                    screenStatus = SCREEN_STATUS_MENU;
-                    menuController.ShowMenu();
+                    if (GameController.Instance.drawWhat == GameController.ESC)
+                    {
+                        screenStatus = SCREEN_STATUS_MENU;
+                        menuController.ShowMenu();
+                    }
+
+                    if (GameController.Instance.drawWhat == GameController.GAMEOVER)
+                    {
+                        screenStatus = SCREEN_STATUS_SCORING;
+                        menuController.ShowMenu();
+                        
+                    }
+                    
+                    GameController.Instance.gameObjects.Clear();
+                    GameController.Instance = new GameController(this);
+                    GameController.Instance.reStart();
                 }
             }
             // end
-
 
             Invalidate(); // 全部洗掉再印一次，會去觸發OnPaint
         }
@@ -93,6 +104,7 @@ namespace rhythm_runner
                 if (screenStatus == SCREEN_STATUS_GAME_NORMAL)
                 {
                     GameController.Instance.gameStatus = GameController.GAME_STATUS_STOP;
+                    GameController.Instance.drawWhat = GameController.ESC;
                     GameController.Instance.backGroundMusic.Close();
                 }
             }
@@ -109,5 +121,22 @@ namespace rhythm_runner
                 }
             }
         }
+
+
+
+        public TextBox textBox_HP;
+        public TextBox textBox_SCORE;
+
+        public void HP_Click(object sender, EventArgs e)
+        {
+            textBox_HP = new TextBox();
+            textBox_HP.Location = new System.Drawing.Point(20, 20);
+            textBox_HP.Text = "HP";
+            textBox_HP.Font = new Font("Hobo Std", 50);
+            this.Controls.Add(textBox_HP);
+
+        }
+
+
     }
 }
