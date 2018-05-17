@@ -12,7 +12,7 @@ namespace rhythm_runner.GameObjects
 
         public override void handleCollision(Player player)
         {
-            player.hp -= hp;
+            player.hp += hp;
 
 
             // throw new NotImplementedException();

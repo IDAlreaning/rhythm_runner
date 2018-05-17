@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,12 +8,14 @@ using System.Windows.Forms;
 
 namespace rhythm_runner.Controllers
 {
-    class MenuController
+    public class MenuController
     {
         // Static variable
-        private const int buttonWidth = 100;
-        private const int buttonHeight = 100;
+        public const int buttonWidth = 300;
+        public const int buttonHeight = 60;
 
+
+        public const int MENU_STATUS_HOWTO_CLICKED = 2;
         public const int MENU_STATUS_START_CLICKED = 1;
         public const int MENU_STATUS_WAIT = 0;
 
@@ -20,7 +23,10 @@ namespace rhythm_runner.Controllers
         public Gameform form;
 
         // Menu Object
-        public Button startBtn;
+        public Button play_startBtn;
+        // public Button main_startBtn;
+        public Button howTo_startBtn;
+        public Button close_startBtn;
 
         // Menu Status
         public int menuStatus;
@@ -35,27 +41,97 @@ namespace rhythm_runner.Controllers
             this.menuStatus = MENU_STATUS_WAIT;
         }
 
+
         public void ShowMenu()
         {
             // clear form
             form.Controls.Clear();
             // end
 
+
             // set up button
-            startBtn = new Button();
-            startBtn.Location = new System.Drawing.Point((form.ClientSize.Width - buttonWidth) / 2,
-                (form.ClientSize.Height - buttonHeight) / 2);
-            startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
-            startBtn.Text = "Start Game";
-            startBtn.Click += new System.EventHandler(StartBtn_Click);
+            play_startBtn = new Button();
+            // main_startBtn = new Button();
+            howTo_startBtn = new Button();
+            close_startBtn = new Button();
+
+            play_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.2), 100 + (form.ClientSize.Height - buttonHeight) / 3);
+            // main_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.2), 100 + (form.ClientSize.Height - buttonHeight) / 2);
+            howTo_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.2), 100 + (form.ClientSize.Height - buttonHeight) / 2);
+            close_startBtn.Location = new System.Drawing.Point(form.ClientSize.Width - (int)(buttonWidth * 1.2), 100 + (form.ClientSize.Height - buttonHeight) / 3 * 2);
+
+
+            play_startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
+            // main_startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
+            howTo_startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
+            close_startBtn.Size = new System.Drawing.Size(buttonWidth, buttonHeight);
+
+
+            play_startBtn.Text = "START GAME";
+            // main_startBtn.Text = "MAIN";
+            howTo_startBtn.Text = "HOW TO PLAY";
+            close_startBtn.Text = "LEAVE";
+
+
+            play_startBtn.Click += new System.EventHandler(play_startBtn_Click);
+            // main_startBtn.Click += new System.EventHandler(main_startBtn_Click);
+            howTo_startBtn.Click += new System.EventHandler(howTo_startBtn_Click);
+            close_startBtn.Click += new System.EventHandler(close_startBtn_Click);
+
+            // Assign an image to the button.
+            play_startBtn.Image = Image.FromFile("Images//button.png");
+            // main_startBtn.Image = Image.FromFile("Images//button.png");
+            howTo_startBtn.Image = Image.FromFile("Images//button.png");
+            close_startBtn.Image = Image.FromFile("Images//button.png");
+
+            play_startBtn.Font = new Font("Arial", 16);
+            howTo_startBtn.Font = new Font("Arial", 16);
+            close_startBtn.Font = new Font("Arial", 16);
+
+            // Give the button a flat appearance.
+            play_startBtn.FlatStyle = FlatStyle.Flat;
+            howTo_startBtn.FlatStyle = FlatStyle.Flat;
+            close_startBtn.FlatStyle = FlatStyle.Flat;
 
             // add object
-            form.Controls.Add(startBtn);
+            form.Controls.Add(play_startBtn);
+           // form.Controls.Add(main_startBtn);
+            form.Controls.Add(howTo_startBtn);
+            form.Controls.Add(close_startBtn);
         }
 
-        public void StartBtn_Click(object sender, EventArgs e)
+        public void play_startBtn_Click(object sender, EventArgs e)
         {
+            form.screenStatus = Gameform.SCREEN_STATUS_MENU;
             menuStatus = MENU_STATUS_START_CLICKED;
+            GameController.Instance.playerJumpMusic.Play();
+            GameController.Instance.backGroundMusic.Play();
+
+            // throw new NotImplementedException();
+        }
+
+
+        public void main_startBtn_Click(object sender, EventArgs e)
+        {
+            //menuStatus = MENU_STATUS_WAIT;
+            GameController.Instance.playerJumpMusic.Play();
+            form.screenStatus = Gameform.SCREEN_STATUS_MENU;
+            ShowMenu();
+            // throw new NotImplementedException();
+        }
+
+        public void howTo_startBtn_Click(object sender, EventArgs e)
+        {
+            form.screenStatus = Gameform.SCREEN_STATUS_HOWTO;
+            GameController.Instance.playerJumpMusic.Play();
+            // throw new NotImplementedException();
+        }
+
+        public void close_startBtn_Click(object sender, EventArgs e)
+        {
+            form.Close();
+            GameController.Instance.playerJumpMusic.Play();
+
             // throw new NotImplementedException();
         }
 

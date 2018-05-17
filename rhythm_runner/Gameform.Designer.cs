@@ -46,6 +46,7 @@
             this.Name = "Gameform";
             this.Text = "Form1";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Jumping_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Gameform_KeyPress);
             this.ResumeLayout(false);
 
         }

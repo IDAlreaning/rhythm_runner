@@ -41,6 +41,7 @@ namespace rhythm_runner.Controllers
 
         public Player player;
         public BackGroundController background;
+        public MenuController menuController;
         public Gameform form;
 
         public bool isJumping;
@@ -52,6 +53,7 @@ namespace rhythm_runner.Controllers
         public GameController(Gameform form)
         {
             this.form = form;
+            this.menuController = new MenuController(form);
             dir = new System.IO.DirectoryInfo(System.Windows.Forms.Application.StartupPath).Parent.Parent;
             this.gameObjects = new List<GameObject>();
             this.hasJumped = false;
@@ -60,8 +62,8 @@ namespace rhythm_runner.Controllers
             // Set Game Status
             this.gameStatus = GAME_STATUS_STOP;
 
-            this.amountOfTempo = 600;
-            this.amountOfObjects = 600;
+            this.amountOfTempo = 5;
+            this.amountOfObjects = 5;
 
             this.platformScore = 10;
             this.healboxHp = 20;
@@ -75,7 +77,9 @@ namespace rhythm_runner.Controllers
 
 
             createListGameObject();
+
             createMedia();
+
 
             player = new Player("Images//GameObject_Player.gif", gameObjects[0], gameObjects[1]);
             background = new BackGroundController("Images//gameBackground_First_left.png", "Images//gameBackground_First_right.png");
@@ -149,17 +153,32 @@ namespace rhythm_runner.Controllers
         {
             Graphics g = e.Graphics; // 使用graphics來繪圖
 
-            background.backGroundX_1 = background.backGroundX_1 % 6144;
-            background.drawBackGround_1(g);
-
-            background.backGroundX_2 = background.backGroundX_2 % 6144;
-            background.drawBackGround_2(g);
-
-            foreach (GameObject gameObject in gameObjects)
+            if (form.screenStatus == Gameform.SCREEN_STATUS_MENU)
             {
-                gameObject.drawGameObject(g, player);
+                background.drawMenu(g);
             }
-            player.drawPlayer(g);
+
+            if (form.screenStatus == Gameform.SCREEN_STATUS_HOWTO)
+            {
+                background.drawMenu(g);
+
+                background.drawHowToPlay(g);
+            }
+
+            if (form.screenStatus == Gameform.SCREEN_STATUS_GAME_NORMAL)
+            {
+                background.backGroundX_1 = background.backGroundX_1 % 6144;
+                background.drawBackGround_1(g);
+
+                background.backGroundX_2 = background.backGroundX_2 % 6144;
+                background.drawBackGround_2(g);
+
+                foreach (GameObject gameObject in gameObjects)
+                {
+                    gameObject.drawGameObject(g, player);
+                }
+                player.drawPlayer(g);
+            }
         }
 
         private void createMedia()
@@ -169,7 +188,6 @@ namespace rhythm_runner.Controllers
             playerJumpMusic = new System.Media.SoundPlayer();
 
             backGroundMusic.Open(new System.Uri(dir.FullName + "\\Audios\\" + "sound_background_Unity.wav"));
-            backGroundMusic.Play();
 
             playerJumpMusic.SoundLocation = dir.FullName + "\\Audios\\" + "sound_collision_Keypress.wav";
             playerJumpMusic.Load();
@@ -180,11 +198,6 @@ namespace rhythm_runner.Controllers
 
         public int Action()
         {
-            //if (gameStatus == GAME_STATUS_STOP)
-            //{
-            //    return gameStatus;
-            //}
-
 
             int distanceOfJumping = player.endJumpPosition - player.startJumpPosition;
 
@@ -237,13 +250,29 @@ namespace rhythm_runner.Controllers
 
             player.playerY = (int)(-(x - center) * (x - center) * a) + heightOfJump;
 
+
+
             if (player.hp <= 0 || player.startGameObject == gameObjects[amountOfObjects - 1])
             {
                 gameStatus = GAME_STATUS_STOP;
+                GameController.Instance.backGroundMusic.Close();
+
+                player.hp = 200;
+                player.score = 0;
             }
 
             return gameStatus;
         }
 
+
+        private void HP_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SCORE_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

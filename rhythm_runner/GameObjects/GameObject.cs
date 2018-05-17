@@ -59,7 +59,7 @@ namespace rhythm_runner.GameObjects
 
         public bool checkCollided(Player player)
         {
-            return Math.Abs(player.playerX - position) < (/*player.playerWidth / 2 + */objectWidth / 2);
+            return Math.Abs(player.playerX - position) < (player.playerWidth / 2 + objectWidth / 2);
         }
 
         public int CompareTo(object obj)
