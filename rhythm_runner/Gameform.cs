@@ -49,6 +49,7 @@ namespace rhythm_runner
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            
             GameController.Instance.draw(e);
         }
 
@@ -83,9 +84,9 @@ namespace rhythm_runner
                     {
                         screenStatus = SCREEN_STATUS_SCORING;
                         menuController.ShowMenu();
-                        
+
                     }
-                    
+
                     GameController.Instance.gameObjects.Clear();
                     GameController.Instance = new GameController(this);
                     GameController.Instance.reStart();
@@ -105,7 +106,7 @@ namespace rhythm_runner
                 {
                     GameController.Instance.gameStatus = GameController.GAME_STATUS_STOP;
                     GameController.Instance.drawWhat = GameController.ESC;
-                    GameController.Instance.backGroundMusic.Close();
+                    GameController.Instance.backGroundMusic.Stop();
                 }
             }
         }
@@ -120,21 +121,6 @@ namespace rhythm_runner
                     GameController.Instance.player.keyPressOfJump = true;
                 }
             }
-        }
-
-
-
-        public TextBox textBox_HP;
-        public TextBox textBox_SCORE;
-
-        public void HP_Click(object sender, EventArgs e)
-        {
-            textBox_HP = new TextBox();
-            textBox_HP.Location = new System.Drawing.Point(20, 20);
-            textBox_HP.Text = "HP";
-            textBox_HP.Font = new Font("Hobo Std", 50);
-            this.Controls.Add(textBox_HP);
-
         }
 
 

@@ -53,7 +53,6 @@ namespace rhythm_runner.Controllers
         // Game Status
         public int gameStatus; // 考量未來加入其餘狀態因此使用int
         public int drawWhat;
-        public Graphics formGraphics;
 
 
         public GameController(Gameform form)
@@ -64,7 +63,6 @@ namespace rhythm_runner.Controllers
             dir = new System.IO.DirectoryInfo(System.Windows.Forms.Application.StartupPath).Parent.Parent;
             this.gameObjects = new List<GameObject>();
             this.hasJumped = false;
-            this.hasCollided = false;
 
 
             // Set Game Status
@@ -166,8 +164,8 @@ namespace rhythm_runner.Controllers
             if (form.screenStatus == Gameform.SCREEN_STATUS_SCORING)
             {
                 background.drawScoring(g);
-                formGraphics = form.CreateGraphics();
-                DrawString();
+
+                DrawString_SCORING(g);
             }
 
             if (form.screenStatus == Gameform.SCREEN_STATUS_HOWTO)
@@ -189,6 +187,9 @@ namespace rhythm_runner.Controllers
                     gameObject.drawGameObject(g, player);
                 }
                 player.drawPlayer(g);
+
+                DrawString_HP(g);
+                DrawString_SCORE(g);
             }
         }
 
@@ -241,7 +242,7 @@ namespace rhythm_runner.Controllers
                 {
                     if (player.keyPressOfJump == true)
                     {
-                        if (!(currentObject is Obstacle) && player.startGameObject != gameObjects[amountOfObjects - 2])
+                        if (!(currentObject is Obstacle) && player.startGameObject != gameObjects[amountOfObjects - 2] && player.startGameObject != gameObjects[amountOfObjects - 1])
                         {
                             player.state = Player.State.JUMP_FARTHER;
                             player.targetGameObject = player.targetGameObject.nextGameObject;
@@ -280,19 +281,49 @@ namespace rhythm_runner.Controllers
             player.score = 0;
         }
 
-        public void DrawString()
+        public void DrawString_SCORING(Graphics formGraphics)
         {
             string drawString = form.showScore.ToString();
             Font drawFont = new Font("Hobo Std", 100);
             SolidBrush drawBrush = new SolidBrush(Color.DarkRed);
-            float x = 210.0F;
+            float x = 200.0F;
             float y = 430.0F;
             StringFormat drawFormat = new System.Drawing.StringFormat();
             formGraphics.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
             drawFont.Dispose();
             drawBrush.Dispose();
-            formGraphics.Dispose();
         }
 
+        public void DrawString_HP(Graphics formGraphics)
+        {
+            string drawString = "HP";
+            string drawString_value = player.hp.ToString();
+            Font drawFont = new Font("Hobo Std", 35);
+            SolidBrush drawBrush = new SolidBrush(Color.DarkGreen);
+            float x = 50.0F;
+            float y = 50.0F;
+            float valueX = 170.0F;
+            StringFormat drawFormat = new System.Drawing.StringFormat();
+            formGraphics.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
+            formGraphics.DrawString(drawString_value, drawFont, drawBrush, valueX, y, drawFormat);
+            drawFont.Dispose();
+            drawBrush.Dispose();
+        }
+
+        public void DrawString_SCORE(Graphics formGraphics)
+        {
+            string drawString = "SCORE";
+            string drawString_value = player.score.ToString();
+            Font drawFont = new Font("Hobo Std", 35);
+            SolidBrush drawBrush = new SolidBrush(Color.DarkRed);
+            float x = 300.0F;
+            float y = 50.0F;
+            float valueX = 520.0F;
+            StringFormat drawFormat = new System.Drawing.StringFormat();
+            formGraphics.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
+            formGraphics.DrawString(drawString_value, drawFont, drawBrush, valueX, y, drawFormat);
+            drawFont.Dispose();
+            drawBrush.Dispose();
+        }
     }
 }

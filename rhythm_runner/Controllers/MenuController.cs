@@ -103,7 +103,7 @@ namespace rhythm_runner.Controllers
             // throw new NotImplementedException();
         }
 
-
+        
         public void main_startBtn_Click(object sender, EventArgs e)
         {
             //menuStatus = MENU_STATUS_WAIT;
