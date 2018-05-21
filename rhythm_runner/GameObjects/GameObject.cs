@@ -23,7 +23,7 @@ namespace rhythm_runner.GameObjects
         public GameObject(string ImageName, int position)
         {
             this.position = position;
-            this.objectY = 440;
+            this.objectY = 500;
             this.objectWidth = 96;
             this.objectHeight = 96;
             this.canJumpOrNot = false;

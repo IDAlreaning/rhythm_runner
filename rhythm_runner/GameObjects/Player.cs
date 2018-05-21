@@ -58,7 +58,7 @@ namespace rhythm_runner.GameObjects
             this.playerX = 0;// 人物移動時與上個位置之間所產生的X軸差距
             this.playerY = 0;// 人物移動時與上個位置之間所產生的Y軸差距
             this.pictureOffsetX = 80;// 人物在螢幕上顯示給玩家看的X軸位置
-            this.pictureOffsetY = 385;// 人物在螢幕上顯示給玩家看的Y軸位置
+            this.pictureOffsetY = 470;// 人物在螢幕上顯示給玩家看的Y軸位置
 
 
             // 人物的圖片生成(playerImageName從Gameform裡面給)

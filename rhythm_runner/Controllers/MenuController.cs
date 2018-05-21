@@ -77,9 +77,9 @@ namespace rhythm_runner.Controllers
             howTo_startBtn.Image = Image.FromFile("Images//button.png");
             close_startBtn.Image = Image.FromFile("Images//button.png");
 
-            play_startBtn.Font = new Font("Arial", 16);
-            howTo_startBtn.Font = new Font("Arial", 16);
-            close_startBtn.Font = new Font("Arial", 16);
+            play_startBtn.Font = new Font("Hobo Std", 16);
+            howTo_startBtn.Font = new Font("Hobo Std", 16);
+            close_startBtn.Font = new Font("Hobo Std", 16);
 
             // Give the button a flat appearance.
             play_startBtn.FlatStyle = FlatStyle.Flat;
@@ -97,7 +97,8 @@ namespace rhythm_runner.Controllers
             form.screenStatus = Gameform.SCREEN_STATUS_MENU;
             menuStatus = MENU_STATUS_START_CLICKED;
 
-            GameController.Instance.playerJumpMusic.Play();
+            //GameController.Instance.playerJumpMusic.Play();
+            GameController.Instance.welcomeMusic.Play();
             GameController.Instance.backGroundMusic.Play();
 
             // throw new NotImplementedException();

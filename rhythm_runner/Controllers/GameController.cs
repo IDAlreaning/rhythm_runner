@@ -40,6 +40,8 @@ namespace rhythm_runner.Controllers
         public System.Windows.Media.MediaPlayer backGroundMusic;
         public System.Media.SoundPlayer playerJumpMusic;
         public System.Media.SoundPlayer obstacleMusic;
+        public System.Media.SoundPlayer welcomeMusic;
+        public System.Media.SoundPlayer thankMusic;
         private System.IO.DirectoryInfo dir;
 
 
@@ -68,8 +70,8 @@ namespace rhythm_runner.Controllers
             // Set Game Status
             this.gameStatus = GAME_STATUS_STOP;
 
-            this.amountOfTempo = 4;
-            this.amountOfObjects = 4;
+            this.amountOfTempo = 100;
+            this.amountOfObjects = 100;
 
             this.platformScore = 50;
             this.healboxHp = 20;
@@ -85,7 +87,7 @@ namespace rhythm_runner.Controllers
             createMedia();
 
             player = new Player("Images//GameObject_Player.gif", gameObjects[0], gameObjects[1]);
-            background = new BackGroundController("Images//gameBackground_First_left.png", "Images//gameBackground_First_right.png");
+            background = new BackGroundController("Images//sushi_BackGround.png");
 
         }
 
@@ -103,9 +105,9 @@ namespace rhythm_runner.Controllers
                 int positionIndex = random.Next(0, positionOfSheet.Count);
                 int position = positionOfSheet[positionIndex] * distanceOfObjectes;
                 positionOfSheet.RemoveAt(positionIndex);
+                int randomNub = random.Next(0, 6);
 
-
-                switch (random.Next(0, 5))
+                switch (randomNub)
                 {
                     case 0:
                         gameObjects.Add(new Obstacle(ObstracleMinusHp, ObstracleMinusScore, position));
@@ -116,8 +118,11 @@ namespace rhythm_runner.Controllers
                     case 2:
                         gameObjects.Add(new Obstacle(ObstracleMinusHp, ObstracleMinusScore, position));
                         break;
-                    default:
+                    case 3:
                         gameObjects.Add(new Platform(platformScore, position));
+                        break;
+                    default:
+                        gameObjects.Add(new Platform_2(platformScore, position));
                         break;
                 }
             }
@@ -176,10 +181,10 @@ namespace rhythm_runner.Controllers
 
             if (form.screenStatus == Gameform.SCREEN_STATUS_GAME_NORMAL)
             {
-                background.backGroundX_1 = background.backGroundX_1 % 6144;
+                background.backGroundX_1 = background.backGroundX_1 % (background.backGroundWidth * 2);
                 background.drawBackGround_1(g);
 
-                background.backGroundX_2 = background.backGroundX_2 % 6144;
+                background.backGroundX_2 = background.backGroundX_2 % (background.backGroundWidth * 2);
                 background.drawBackGround_2(g);
 
                 foreach (GameObject gameObject in gameObjects)
@@ -198,6 +203,8 @@ namespace rhythm_runner.Controllers
             backGroundMusic = new System.Windows.Media.MediaPlayer();
             obstacleMusic = new System.Media.SoundPlayer();
             playerJumpMusic = new System.Media.SoundPlayer();
+            welcomeMusic = new System.Media.SoundPlayer();
+            thankMusic = new System.Media.SoundPlayer();
 
             backGroundMusic.Open(new System.Uri(dir.FullName + "\\Audios\\" + "sound_background_Unity.wav"));
 
@@ -206,6 +213,12 @@ namespace rhythm_runner.Controllers
 
             obstacleMusic.SoundLocation = dir.FullName + "\\Audios\\" + "sound_collision_Obstacle.wav";
             obstacleMusic.Load();
+
+            welcomeMusic.SoundLocation = dir.FullName + "\\Audios\\" + "sound_welcome.wav";
+            welcomeMusic.Load();
+
+            thankMusic.SoundLocation = dir.FullName + "\\Audios\\" + "sound_thankYou.wav";
+            thankMusic.Load();
         }
 
         public int Action()
@@ -266,6 +279,7 @@ namespace rhythm_runner.Controllers
             if (player.hp <= 0 || player.startGameObject == gameObjects[amountOfObjects - 1])
             {
                 gameStatus = GAME_STATUS_STOP;
+                GameController.Instance.thankMusic.Play();
                 drawWhat = GAMEOVER;
                 GameController.Instance.backGroundMusic.Close();
                 form.showScore = player.score;
@@ -286,9 +300,12 @@ namespace rhythm_runner.Controllers
             string drawString = form.showScore.ToString();
             Font drawFont = new Font("Hobo Std", 100);
             SolidBrush drawBrush = new SolidBrush(Color.DarkRed);
-            float x = 200.0F;
-            float y = 430.0F;
+            float x = 320.0F;
+            float y = 530.0F;
+
             StringFormat drawFormat = new System.Drawing.StringFormat();
+            drawFormat.Alignment = StringAlignment.Center;
+            drawFormat.LineAlignment = StringAlignment.Center;
             formGraphics.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
             drawFont.Dispose();
             drawBrush.Dispose();

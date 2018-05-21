@@ -18,7 +18,7 @@ namespace rhythm_runner.GameObjects
             // throw new NotImplementedException();
         }
 
-        public HealBox(int hp, int position):base("Images//GameObject_Healbox.png", position)
+        public HealBox(int hp, int position):base("Images//GameObject_tea.png", position)
         {
             this.hp = hp;
         }

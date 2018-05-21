@@ -17,7 +17,7 @@ namespace rhythm_runner.GameObjects
             // throw new NotImplementedException();
         }
 
-        public Platform(int score, int position) :base("Images//GameObject_Platform.png", position)
+        public Platform(int score, int position) :base("Images//GameObject_sushi.png", position)
         {
             this.score = score;
         }
